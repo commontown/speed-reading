@@ -1,0 +1,60 @@
+.ctapp-viewer {
+  --drawerWidth : 240px;
+  --toolbarHeight : 64px;
+
+  display: flex;
+
+  .hide_ { display: none; }
+
+  .appbar_ {
+    z-index: 1201;
+
+    &.shift_ {
+      margin-left: var(--drawerWidth);
+      width: calc(100% - var(--drawerWidth));
+    }
+  }
+
+  .drawer_ {
+    width: var(--drawerWidth);
+    flex-shrink: 0;
+    white-space: nowrap;
+
+    .sidemenu_ {
+      background-color: #444;
+      color: #fff;
+      .link_ { 
+        text-decoration: none; 
+        color: #fff;
+
+        .level2_ {
+          background-color: #666;
+        }
+      }
+    }
+
+    .MuiSvgIcon-root { fill: #fff; }
+
+    &.open_, .open_ {
+      width: var(--drawerWidth);
+    }
+    &.close_, .close_ {
+      overflow-x: hidden;
+      width: 3.5rem;
+    }
+  }
+
+  .toolbar_ {
+    height: var(--toolbarHeight);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img { margin-left:1em; }
+  }
+
+  .content_ {
+    flex-grow: 1;
+    padding: calc(1em + var(--toolbarHeight)) 2em 2em;
+  }
+}

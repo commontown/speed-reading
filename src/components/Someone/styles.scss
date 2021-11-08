@@ -1,0 +1,20 @@
+.ctapp-someone {
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+
+  .person_ {
+    cursor: pointer;
+    padding: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: .8rem;
+
+    .name_ {
+      font-size: 140%;
+    }
+  }
+}
+
