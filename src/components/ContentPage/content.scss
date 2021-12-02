@@ -1,0 +1,42 @@
+$menu-height:5rem;
+    .right-content {
+        flex: 1;
+        max-height: calc(100vh - #{$menu-height});
+        overflow: scroll;
+        padding: 5rem 3rem;
+        box-sizing: border-box;
+        .content-tit {
+            font-size: 3.2rem;
+            color:  #333333;
+            font-family: "Roboto";
+						font-weight: bold;
+        }
+				.content {
+					font-size: 1.9rem;
+          color:  #000000;
+          font-family: "Roboto";
+					margin-bottom: 5rem;
+				}
+				.done-button {
+					width: 12rem;
+					height: 4rem;
+					font-family: "Roboto";
+					background-image:url("../../assets/contentPage/time_up.png");
+					background-size: 100% 100%;
+					background-repeat: no-repeat;
+					text-align: center;
+					line-height: 4rem;
+					font-size: 2.2rem;
+					font-weight: bold;
+					color: #333333;
+					cursor: pointer;
+					border-radius: 1.4rem;
+					margin: 0 auto;
+					&:hover{
+						background-image:url("../../assets/contentPage/time_up_active.png");
+						box-shadow: -1px 1px 13px -1px rgba(42,40,40,0.5);
+						transition: all 0.2s;
+						color: #fff;
+					}
+				}
+    }

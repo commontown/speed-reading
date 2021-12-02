@@ -1,0 +1,13 @@
+$menu-height:5rem;
+    .statistics {
+        width: 100%;
+        height: calc(100vh - #{$menu-height});
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        #chart-area {
+            width: 90%;
+            height: calc(100vh - 10rem);
+        }
+    }

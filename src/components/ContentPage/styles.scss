@@ -1,0 +1,11 @@
+$menu-height:5rem;
+.ContentPage {
+    display: flex;
+    .left-img {
+        flex: 1;
+        img {
+            width: 100%;
+            height:calc(100vh - #{$menu-height})
+        }
+    }
+}

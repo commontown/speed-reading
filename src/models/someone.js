@@ -10,12 +10,12 @@ const model = {
 
   effects: {
     *fetch(action) {
-      const needfetch = yield select( fullstate => (!fullstate[modelname].results) )
+      const needfetch = yield select(fullstate => (!fullstate[modelname].results))
       if (needfetch) {
         const { count } = action.data;
-        const data = yield fetch(`${config.api.someone.index}/?results=${count}`, {
-            method: "GET",
-          })
+        const data = yield fetch(`${config.api.someone.index}/getLeaderboard`, {
+          method: "GET",
+        })
           .then(res => res.json())
         console.log('data:', data);
         yield put({ type: `${modelname}/store`, data })

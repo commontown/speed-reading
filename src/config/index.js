@@ -1,6 +1,6 @@
 const appTitle = 'CommonTown App Starter'
-const releaseDate='2021-08-28'
-const version='v1.00'
+const releaseDate = '2021-08-28'
+const version = 'v1.00'
 const copyright = `Copyright © 2021. CommonTown Pte Ltd. All rights reserved. App ${version} ${releaseDate}`
 
 const portal = {
@@ -24,8 +24,8 @@ const apiVersion = 'v4.03';
 // const apiPrefix = `${siteUrl}/_swt/${apiVersion}`;
 
 const config = {
-  app:{
-    title:appTitle,
+  app: {
+    title: appTitle,
     version,
     releaseDate,
     copyright,
@@ -38,7 +38,7 @@ const config = {
   api: {
     apiVersion,
     someone: {
-      index: `https://randomuser.me/api/`,
+      index: `https://dd.ca4dev.url3.net/cos/o.x?c=/ca4_dd/etitle&func=furl&furlpath=/api2/speedread`,
     },
   },
 

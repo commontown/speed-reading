@@ -1,0 +1,62 @@
+$menu-height:5rem;
+    .right-timeOver {
+        flex: 1;
+        max-height: calc(100vh - #{$menu-height});
+        overflow: scroll;
+        padding: 12rem 3rem 0;
+        box-sizing: border-box;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			.clock-icon {
+				width: 4rem;
+				height: 4rem;
+			}
+			.timeover-tit {
+				font-size: 5rem;
+				font-family: "Fredoka";
+				font-weight: bold;
+				color: #2291d7;
+				margin-bottom: 2rem;
+			}
+				.done-button {
+					width: 22rem;
+					height: 6rem;
+					font-family: "Roboto";
+					background-image:url("../../assets/contentPage/time_up.png");
+					background-size: 100% 100%;
+					background-repeat: no-repeat;
+					cursor: pointer;
+					border-radius: 1.4rem;
+					margin: 0 auto;
+					display: flex;
+					flex-direction: column;
+					justify-content: space-between;
+					padding: 1.4rem 0;
+					box-sizing: border-box;
+					&:hover{
+						background-image:url("../../assets/contentPage/time_up_active.png");
+						box-shadow: -1px 1px 13px -1px rgba(42,40,40,0.5);
+						transition: all 0.2s;
+						.btn-tit {
+							color: #fff;
+						}
+						.btn-subtit {
+							color: #fff;
+						}
+					}
+					.btn-tit {
+						font-size: 2.2rem;
+						font-weight: bold;
+						color: #333333;
+						text-align: center;
+						line-height: 2.2rem;
+					}
+					.btn-subtit {
+						font-size: 0.2rem;
+						color: #333333;
+						text-align: center;
+						line-height: 0.2rem;
+					}
+				}
+    }
