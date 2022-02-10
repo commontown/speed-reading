@@ -1,5 +1,4 @@
-
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,15 +20,20 @@ import Order7 from '../../assets/leaderBoard/order7.png';
 import Order8 from '../../assets/leaderBoard/order8.png';
 import Order9 from '../../assets/leaderBoard/order9.png';
 import Order10 from '../../assets/leaderBoard/order10.png';
+import { useSelector } from 'react-redux';
+import { dispatch } from 'framework';
 
 const useStyles = makeStyles({
 	tableHeadItem1: {
 		color: "#fff",
-		backgroundColor: "#58c1f1"
+		textAlign: "center",
+		backgroundColor: "#58c1f1",
+		paddingLeft: "70px"
 	},
 	tableHeadItem: {
 		color: "#fff",
 		textAlign: "center",
+		paddingLeft: "44px !important",
 		backgroundColor: "#58c1f1"
 	}
 });
@@ -37,16 +41,16 @@ function createData(Name, Point, Speed, Attempts) {
 	return { Name, Point, Speed, Attempts };
 }
 const rows = [
-	createData('Jeff', 3500, 400, 20),
-	createData('John', 3200, 350, 25),
-	createData('Wendy', 3100, 330, 24),
-	createData('Richard', 2500, 300, 21),
-	createData('Wenyang', 2300, 280, 15),
-	createData('Gilfford', 3500, 400, 20),
-	createData('Keith', 3200, 350, 25),
-	createData('Jianfeng', 3100, 330, 24),
-	createData('Weiqi', 2500, 300, 21),
-	createData('Eric', 2300, 280, 15),
+	// createData('Jeff', 3500, 400, 20),
+	// createData('John', 3200, 350, 25),
+	// createData('Wendy', 3100, 330, 24),
+	// createData('Richard', 2500, 300, 21),
+	// createData('Wenyang', 2300, 280, 15),
+	// createData('Gilfford', 3500, 400, 20),
+	// createData('Keith', 3200, 350, 25),
+	// createData('Jianfeng', 3100, 330, 24),
+	// createData('Weiqi', 2500, 300, 21),
+	// createData('Eric', 2300, 280, 15),
 ];
 const getImgPath = (index) => {
 	let img
@@ -86,6 +90,17 @@ const getImgPath = (index) => {
 }
 export default function LeaderBoard() {
 	const classes = useStyles();
+	const { board } = useSelector(({ someone }) => someone.results) || {};
+	const [rows, setRows] = useState([])
+	useEffect(() => {
+		setTimeout(() => {
+			dispatch('someone/fetch', { address: "getLeaderboard", state: "results" });
+		}, 0);
+	}, []);
+	useEffect(() => {
+		setRows(board)
+
+	}, [board])
 	const [btnList, setBtnList] = useState([
 		{
 			text: "Class",
@@ -93,13 +108,16 @@ export default function LeaderBoard() {
 			starIcon: true
 		},
 		{
-			text: "Schools",
+			text: "School",
 			className: "school-btn",
 			starIcon: false
 		}
 	])
 	const [orderStatus, setOrderStatus] = useState('asc')
-	const handleClickToggleBtn = (index) => {
+	const handleClickToggleBtn = (index, className) => {
+		let type = className.split("-")[0]
+		dispatch('someone/store', { data: { results: null } });
+		dispatch('someone/fetch', { address: `getLeaderboard&type=${type}`, state: "results" });
 		let list = [...btnList]
 		list.forEach((item, listIndex) => {
 			item.starIcon = false
@@ -109,13 +127,37 @@ export default function LeaderBoard() {
 		})
 		setBtnList(list)
 	};
-	const createSortHandler = () => {
+	const createSortHandler = (property) => (event) => {
+
+		let arr = [...rows]
+
+
 		if (orderStatus === 'asc') {
 			setOrderStatus('desc')
+			function compare(p) { //这是比较函数
+				return function (m, n) {
+					let a = m[p];
+					let b = n[p];
+					return a - b; //小的在第一行
+				}
+			}
+			arr.sort(compare(property));
+			setRows(arr)
 		} else {
 			setOrderStatus('asc')
+			function compare(p) { //这是比较函数
+				return function (m, n) {
+					let a = m[p];
+					let b = n[p];
+					return b - a; //大的在第一行
+				}
+			}
+			arr.sort(compare(property));
+			setRows(arr)
+
 		}
 	};
+
 	return (
 		<div className="leader-board-area">
 			<div className="btn-area">
@@ -124,7 +166,7 @@ export default function LeaderBoard() {
 						return (
 							<div
 								className={item.className}
-								onClick={(e) => handleClickToggleBtn(index, e)}
+								onClick={(e) => handleClickToggleBtn(index, item.className)}
 								key={item.text}
 							>
 								<span>{item.text}</span>
@@ -145,36 +187,57 @@ export default function LeaderBoard() {
 							<TableCell className={classes.tableHeadItem1}>Name</TableCell>
 							<TableCell className={classes.tableHeadItem}>
 								<TableSortLabel
-									active={true}
+									active={false}
 									direction={orderStatus}
-									onClick={createSortHandler}
+									onClick={createSortHandler('points')}
 									style={{ color: "#fff" }}
 								>
 									Point
 								</TableSortLabel>
 							</TableCell>
-							<TableCell className={classes.tableHeadItem}>Speed(wpm)</TableCell>
-							<TableCell className={classes.tableHeadItem}>Attempts</TableCell>
+							<TableCell className={classes.tableHeadItem}>
+								<TableSortLabel
+									active={false}
+									direction={orderStatus}
+									onClick={createSortHandler('speed')}
+									style={{ color: "#fff" }}
+								>
+									Speed(wpm)
+								</TableSortLabel>
+							</TableCell>
+							<TableCell className={classes.tableHeadItem}>
+								<TableSortLabel
+									active={false}
+									direction={orderStatus}
+									onClick={createSortHandler('attempts')}
+									style={{ color: "#fff" }}
+								>
+									Attempts
+								</TableSortLabel>
+							</TableCell>
 						</TableRow>
 					</TableHead>
 					<TableBody>
-						{rows.map((row, index) => (
-							<TableRow key={row.Name}>
+						{rows && rows.map((row, index) => (
+							<TableRow key={row.uid}>
 								<TableCell
 									component="th"
 									scope="row"
-									style={{ display: "flex", alignItems: "center" }}
+									style={{ display: "flex", alignItems: "center" ,justifyContent: "center"}}
 								>
-									<img
+									<div className='name'>						
+													<img
 										src={getImgPath(index + 1)}
 										alt={`Order${index + 1}`}
 										className="order-icon"
 									/>
-									{row.Name}
+									<span>{row.fname}</span>
+									</div>
+	
 								</TableCell>
-								<TableCell align="center">{row.Point}</TableCell>
-								<TableCell align="center">{row.Speed}</TableCell>
-								<TableCell align="center">{row.Attempts}</TableCell>
+								<TableCell align="center">{row.points}</TableCell>
+								<TableCell align="center">{row.speed}</TableCell>
+								<TableCell align="center">{row.attempts}</TableCell>
 							</TableRow>
 						))}
 					</TableBody>

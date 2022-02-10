@@ -1,4 +1,5 @@
 .leader-board-menu {
+    position: relative;
     width: 100%;
     height: 5rem;
     background-color: #ffbf2c ;
@@ -12,12 +13,28 @@
         height: 1.8rem;
         cursor: pointer;
     }
-    .crown-icon-area {
+    .crown-icon-statistics{
+        position: absolute;
+        top:50%;
+        left:50%;
+        transform:translate(-50%, -50%);
         display: flex;
         align-items: center;
         font-size: 2.2rem;
         color: #fff;
-        font-family: "Fredoka";
+        font-family: "Helvetica";
+        font-weight: bolder;
+    }
+    .crown-icon-area {
+        position: absolute;
+        top:50%;
+        left:532px;
+        transform:translate(-50%, -50%);
+        display: flex;
+        align-items: center;
+        font-size: 2.2rem;
+        color: #fff;
+        font-family: "Helvetica";
         font-weight: bolder;
         .clock-icon {
             width: 2.6rem;

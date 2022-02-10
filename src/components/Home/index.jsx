@@ -11,6 +11,12 @@ import articles from '../../assets/home/articles.png';
 import instruction from '../../assets/home/instruction.png';
 import clock from '../../assets/home/clock.png';
 import starButtonActive from '../../assets/home/star_button_active.png';
+import Seconds from '../../assets/home/Seconds.png';
+
+
+
+import { dispatch } from 'framework';
+import { useSelector } from 'react-redux';
 
 const styles = () => ({
 	closeButton: {
@@ -22,14 +28,21 @@ const styles = () => ({
 });
 export default function Home(props) {
 	const [dialogStatus, setDialogStatus] = useState(false)
+	const { speedread, articleInfo } = useSelector(({ article }) => article) || {};
 	useEffect(() => {
 		console.log(props.history.block, "block")
-		//防止页面后退
-		// window.history.pushState(null, null, document.URL);
-		// window.addEventListener('popstate', function () {
-		// 	window.history.pushState(null, null, document.URL);
-		// });
+		// 防止页面后退
+		/**
+		 * 这里禁用浏览器后退事件 需要注意 router下的方法也会失效
+		 */
+		window.history.pushState(null, null, document.URL);
+		window.addEventListener('popstate', function () {
+			window.history.pushState(null, null, document.URL);
+		});
 	}, []);
+	useEffect(() => {
+		dispatch('article/fetch');
+	}, [articleInfo]);
 	const toTextPage = () => {
 		props.history.push("/content-page")
 	}
@@ -59,7 +72,7 @@ export default function Home(props) {
 					<li>
 						<div>
 							<img src={level} alt="level" />
-							<p>Level 3</p>
+							<p>Level {speedread && speedread.passage.level} </p>
 						</div>
 						<div>
 							<img src={articles} alt="level" />
@@ -77,10 +90,10 @@ export default function Home(props) {
 			<div className="center-area">
 				<img src={clock} alt="clock" className="right-top-icon" />
 				<div className="center-word">
-					<p className="area-title">Speed Reading</p>
-					<p className="area-subtitle">125 WORDS</p>
+					<p className="area-title">{/* <img src={SpeedReading} alt="" /> */}</p>
+					<p className="area-subtitle">{speedread && speedread.passage.word_count} WORDS</p>
 					<p className="score-num">75</p>
-					<p className="score">Seconds</p>
+					<p className="score"><img src={Seconds} alt="" /></p>
 					<div className="next-button" onClick={toTextPage}>
 						<span>Challenge</span>
 						<img className="button-star" src={starButtonActive} alt="starButtonActive" />

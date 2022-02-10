@@ -1,6 +1,9 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  overflow:scroll;
+  overflow-y:hidden;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont,'Helvetica', 'Segoe UI',  'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;

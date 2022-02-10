@@ -4,7 +4,7 @@ import Rocket from '../../assets/menu/rocket.png';
 import Crown from '../../assets/leaderBoard/crown.png';
 export default function LeaderBoardMenu(props) {
     const goBack = () => {
-        props.history.goBack(-1);
+        props.history.push("/question-end");
     };
     return (
         <div className="leader-board-menu">
@@ -12,8 +12,14 @@ export default function LeaderBoardMenu(props) {
             {
                 props.location.pathname == "/leader-board" ?
                     <div className="crown-icon-area">
-                        LeaderBoard
+                        Leaderboard
                         <img src={Crown} alt="Crown" className="clock-icon" />
+                    </div> : null
+            }
+                {
+                props.location.pathname == "/statistics" ?
+                    <div className="crown-icon-statistics">
+                        Statistics
                     </div> : null
             }
             <img src={Rocket} alt="Rocket" className="rocket-icon" />

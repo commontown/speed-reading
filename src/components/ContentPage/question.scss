@@ -2,16 +2,19 @@ $menu-height:5rem;
     .right-question {
         flex: 1;
         max-height: calc(100vh - #{$menu-height});
-        overflow: scroll;
+				overflow:scroll;
+				overflow-y:hidden;
+				overflow-x: hidden;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
-				font-family: "Roboto";
+				background: #fff;
+				font-family: "Helvetica";
 			.title-area{
 				width: 80%;
 				height: 3rem;
-				margin-top: 6rem;
-				margin-bottom: 2rem;
+				margin-top: 3rem;
+				margin-bottom: 1rem;
 				display: flex;
 				justify-content: space-between;
 				align-items: center;
@@ -19,18 +22,20 @@ $menu-height:5rem;
 				color: #2291d7;
 				font-weight: bold;
 				img {
+					width: 1rem;
 					cursor: pointer;
 				}
 			}
 			.content-area{
 				width: 80%;
-				font-size: 1.9rem;
+				font-size: 1.5rem;
 				color: #333333;
-				margin-bottom: 4rem;
+				margin-bottom: 2rem;
+				margin-top: 1rem;
 			}
 			.option-area {
 				width: 80%;
-				margin-bottom: 6rem;
+				margin-bottom: 2rem;
 				ul {
 					font-size: 2.1rem;
 					cursor: pointer;
@@ -40,9 +45,9 @@ $menu-height:5rem;
 						background-size: 100% 100%;
 						background-repeat: no-repeat;
 						margin-bottom: 1rem;
-						height: 5rem;
+						height: 4.5rem;
 						text-align: center;
-						line-height: 5rem;
+						line-height: 3.5rem;
 						color: #333333;
 						&:hover{
 							background-image:url("../../assets/contentPage/option_bgc_active.png");
@@ -56,9 +61,9 @@ $menu-height:5rem;
 						background-size: 100% 100%;
 						background-repeat: no-repeat;
 						margin-bottom: 1rem;
-						height: 5rem;
+						height: 4.5rem;
 						text-align: center;
-						line-height: 5rem;
+						line-height: 3.5rem;
 						color: #fff;
 					}
 				}
@@ -71,7 +76,7 @@ $menu-height:5rem;
 				.done-button {
 					width: 12rem;
 					height: 4rem;
-					font-family: "Roboto";
+					font-family: "Helvetica";
 					align-self: flex-end;
 					background-image:url("../../assets/contentPage/btn_bgc.png");
 					background-size: 101% 100%;
@@ -88,6 +93,25 @@ $menu-height:5rem;
 						color: #fff;
 					}
 				}
+				.nodone-button {
+					width: 12rem;
+					height: 4rem;
+					font-family: "Helvetica";
+					align-self: flex-end;
+					background-image:url("../../assets/contentPage/btn_bgc.png");
+					background-size: 101% 100%;
+					background-repeat: no-repeat;
+					text-align: center;
+					line-height: 4rem;
+					font-size: 1.5rem;
+					font-weight: 600;
+					color: #333333;
+					cursor: not-allowed;
+					border-radius: 1.4rem;
+				}
 			}
 
     }
+		.MuiSnackbar-anchorOriginTopCenter.MuiSnackbar-root.Validate-tips{
+			top: #{$menu-height}
+		}

@@ -1,3 +1,4 @@
+import { config } from 'config'
 import { put } from 'redux-saga/effects'
 
 const modelname = 'article';
@@ -72,29 +73,174 @@ const model = {
 					]
 				}
 			]
+		},
+		speedread: {
+			"passage": {
+				"_id": 1,
+				"title": "Ben",
+				"level": 3,
+				"psg_content": "Ben lives on a farm in England.  There are many farms in the U.K.  Some grow food.  Some keep animals.  Ben’s farm does both. <br/>He helps his dad.  His dad drives a tractor.  It is blue and very big.  Ben helps his mum.  She rides a horse.  It is brown and very friendly. <br/>On the farm there are some sheep.  They are white.  They live on the hills.  Ben's dog, Dodger, watches the sheep.  There are cows too.  The cows are black and white.  They make milk.  They live by the river.  Near the house there are some chickens.  They make eggs.  They make a noise too! <br/>Ben and his family grow some fruit and vegetables too.  In the summer they grow tomatoes and peas.  In the autumn they grow apples.  In the winter, they grow potatoes.   <br/>Ben loves his farm!",
+				"word_count": "137",
+				quiz_content: [
+					{
+						body: 'Where is Ben’s farm?',
+						choices: [
+							{
+								title: 'England',
+								status: false
+							},
+							{
+								title: 'France',
+								status: false
+							},
+							{
+								title: 'America',
+								status: false
+							},
+							{
+								title: 'India ',
+								status: false
+							}
+						]
+					},
+					{
+						body: 'What does Ben’s dad drive?',
+						choices: [
+							{
+								title: 'car',
+								status: false
+							},
+							{
+								title: 'bus',
+								status: false
+							},
+							{
+								title: 'train',
+								status: false
+							},
+							{
+								title: 'tractor',
+								status: false
+							}
+						]
+					},
+					{
+						body: 'What colour is Ben’s mum’s horse?',
+						choices: [
+							{
+								title: 'white',
+								status: false
+							},
+							{
+								title: 'grey',
+								status: false
+							},
+							{
+								title: 'brown',
+								status: false
+							},
+							{
+								title: 'black',
+								status: false
+							}
+						]
+					},
+					{
+						body: 'Where do the cows live?',
+						choices: [
+							{
+								title: 'on the hills',
+								status: false
+							},
+							{
+								title: 'near the river',
+								status: false
+							},
+							{
+								title: 'by the house',
+								status: false
+							},
+							{
+								title: 'somewhere else',
+								status: false
+							}
+						]
+					},
+					{
+						body: 'When does the farm grow apples?',
+						choices: [
+							{
+								title: 'spring',
+								status: false
+							},
+							{
+								title: 'summer',
+								status: false
+							},
+							{
+								title: 'autumn',
+								status: false
+							},
+							{
+								title: 'winter',
+								status: false
+							}
+						]
+					}
+				],
+				"answers": "A,D,C,B,C",
+				"psg_time_given": null,
+				"quiz_time_given": null,
+				"image_url": null,
+				"_ctime": "2021-10-05 17:58:12"
+			},
+			"last_level": 3
 		}
 	},
 
 	effects: {
-		// *incr_delay(action) {
-		// 	const { data } = action.data
-		// 	const delay = (ms) => new Promise(res => setTimeout(res, ms))
-		// 	yield delay(1000)
-		// 	yield put({ type: `${modelname}/incr`, data })
-		// },
+		*fetch() {
+			const data = yield fetch(`${config.api.someone.index}/getPassage`, {
+				method: "GET",
+				credentials: "include"
+			})
+				.then(res => res.json())
+
+			// 这里是对后端返回的数据进行处理choices字段增加staus
+			let newdata = data.speedread
+
+			newdata.passage.quiz_content = JSON.parse(newdata.passage.quiz_content)
+			newdata.passage.quiz_content.forEach((item) => {
+				let choices = [...item.choices]
+				item.choices = choices.map((subitem) => {
+					return {
+						title: subitem,
+						status: false
+					}
+				})
+			})
+			newdata = JSON.parse(JSON.stringify(newdata).replace(/’/g, "'"))
+			// console.log(JSON.parse(newdata.passage.quiz_content))
+			const speedread = newdata
+			console.log('speedread:', speedread);
+			yield put({ type: `${modelname}/store`, speedread })
+		}
 	},
 
 	reducers: {
 		onLoad(state, { data: { dispatch, history } }) {
 			// ... do these when the model is loaded
-			console.log('article onLoad:', dispatch, history);
+			console.log('article onLoad:', dispatch, history,);
 		},
 		setArticle(state, action) {
 			let { articleInfo } = state;
-			console.log(action, "action")
 			const { article } = action.data;
 			articleInfo = article;
 			return { ...state, articleInfo }
+		},
+		store(state, action) {
+			const { speedread } = action;
+			return { ...state, speedread }
 		},
 	},
 }

@@ -1,11 +1,77 @@
 import * as echarts from 'echarts';
-import { useEffect } from "react";
+import { dispatch } from 'framework';
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from 'react-redux';
 import './styles.scss';
 
 export default function Statistics() {
+	const { stats } = useSelector(({ someone }) => someone.stats) || {};
+	const [wpmData, setWpmData] = useState([])
+	const [answerData, setAnswerData] = useState([])
+	const [readingData, setReadingData] = useState([])
+	const [scoreData, setScoreData] = useState([])
+	const getData = useCallback(
+		(myChart) => {
+			let uid = 1
+			// 指定图表的配置项和数据
+			// setTimeout(() => {
+			// 	initEchart(myChart)
+
+			// }, 0)
+			dispatch('someone/stats', { data: { stats: null } });
+			dispatch('someone/fetch', { address: `getStats&id=${uid}&count=1000`, state: "stats" });
+			// initEchart(myChart, _.groupBy(res.data, (item) => item.category.title))
+
+		}, [])
+
+	useEffect((myChart) => {
+		if (stats) {
+			let wpm = []
+			let Answer = []
+			let Reading = []
+			let score = []
+			stats.map((item) => {
+				if (item.psg_id) {
+					console.log(item.score)
+					if_obj_is_null(item)
+					if (wpm.length >= 20) {
+						wpm.shift()
+						Answer.shift()
+						Reading.shift()
+						score.shift()
+					}
+					score.push(item.score)
+					wpm.push(item.speed_wpm)
+					Answer.push(item.quiz_time)
+					Reading.push(item.read_time)
+				}
+			})
+			setWpmData(wpm)
+			setAnswerData(Answer)
+			setReadingData(Reading)
+			setScoreData(score)
+			console.log(score, wpm)
+		}
+	}, [stats])
 	useEffect(() => {
-		let chartDom = document.getElementById('chart-area');
-		let myChart = echarts.init(chartDom);
+		if (wpmData.length && answerData.length && readingData.length && scoreData.length) {
+			initEchart(echarts.init(document.getElementById('chart-area')))
+		}
+	}, [wpmData, answerData, readingData, scoreData])
+	useEffect(() => {
+		getData()
+	}, []);
+
+	const if_obj_is_null = (obj) => {      // 判断一个对象下是否有空属性
+		for (const key in obj) {
+			if (obj.hasOwnProperty(key)) {
+				if (obj[key] === null || obj[key] === '') {
+					obj[key] = 0
+				}
+			}
+		}
+	}
+	const initEchart = (myChart) => {
 		let option;
 		option = {
 			tooltip: {
@@ -17,17 +83,35 @@ export default function Statistics() {
 					}
 				}
 			},
-			legend: {
-				data: ['Reading', 'Answer', 'wpm'],
+			legend: [{
+				data: ['Reading', 'Answer'],
+				left: "10%",
 				bottom: 10
-			},
+			}, {
+				data: ['wpm'],
+				bottom: 10,
+				right: "10%"
+			},],
 			xAxis: [
 				{
 					type: 'category',
-					data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+					data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'],
 					axisPointer: {
 						type: 'shadow'
-					}
+					},
+				},
+				{
+					position: 'bottom',
+					axisLabel: {
+						margin: 20 //文字与坐标轴的间隔
+					},
+					name: "Score %",
+					nameLocation: "start",
+					nameTextStyle: {
+						verticalAlign: "top",
+						padding: [20, 0, 0, 0],
+					},
+					data: scoreData,
 				}
 			],
 			yAxis: [
@@ -35,21 +119,31 @@ export default function Statistics() {
 					type: 'value',
 					name: 'Time',
 					min: 0,
-					max: 250,
-					interval: 50,
+
 					axisLabel: {
-						formatter: '{value} min'
-					}
+						formatter: '{value} second'
+					},
+					axisLine: {
+						show: true
+					},
+					axisTick: {
+						show: true
+					},
 				},
+
 				{
 					type: 'value',
 					name: 'wpm',
 					min: 0,
-					max: 25,
-					interval: 5,
 					axisLabel: {
 						formatter: '{value}'
-					}
+					},
+					axisLine: {
+						show: true
+					},
+					axisTick: {
+						show: true
+					},
 				}
 			],
 			series: [
@@ -59,9 +153,7 @@ export default function Statistics() {
 					itemStyle: {
 						color: "#ffb283"
 					},
-					data: [
-						2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-					]
+					data: readingData
 				},
 				{
 					name: 'Answer',
@@ -69,9 +161,7 @@ export default function Statistics() {
 					itemStyle: {
 						color: "#5dceea"
 					},
-					data: [
-						2.6, 5.9, 9.0, 26.4, 28.7, 70.7, 175.6, 182.2, 48.7, 18.8, 6.0, 2.3
-					]
+					data: answerData
 				},
 				{
 					name: 'wpm',
@@ -82,13 +172,14 @@ export default function Statistics() {
 					itemStyle: {
 						color: "#257bba"
 					},
-					data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+					data: wpmData
 				}
 			]
 		};
-
+		// 使用刚指定的配置项和数据显示图表。
 		option && myChart.setOption(option);
-	}, []);
+	}
+
 	return (
 		<div className="statistics">
 			<div id="chart-area"></div>

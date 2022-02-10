@@ -4,9 +4,11 @@ const modelname = 'counter';
 const model = {
   name: modelname,
   state: {
-    contentTimeTotal: 30,
-    questionTimeTotal: 20,
-    pageStatus: 1//页面状态 1文章页面 2文章倒计时结束页面 3题目页面
+    contentTimeTotal: 30,   // 文章时间
+    questionTimeTotal: 20, // 答题时间
+    pageStatus: 1,//页面状态 1文章页面 2文章倒计时结束页面 3题目页面
+    read_time: 0,
+    quiz_time: 0,
   },
 
   effects: {
@@ -23,12 +25,18 @@ const model = {
       // ... do these when the model is loaded
       console.log('counter onLoad:', dispatch, history);
     },
+    // 重置时间
+    Reset(state, action) {
+      const { contentTimeTotal, questionTimeTotal, pageStatus } = action.data;
 
+      return { ...state, contentTimeTotal, questionTimeTotal, pageStatus }
+
+    },
     init(state, action) {
-      // if (!state.inited) {
-      //   const { value } = action.data;
-      //   return { ...state, inited: true, value }
-      // }
+      if (!state.inited) {
+        const { value } = action.data;
+        return { ...state, inited: true, value }
+      }
     },
     changePageStatus(state, action) {
       let { pageStatus } = state;
@@ -52,7 +60,14 @@ const model = {
 
       return { ...state, contentTimeTotal, questionTimeTotal }
     },
+    usedReadTime(state, action) {
+      const { read_time } = action.data;
+      return { ...state, read_time }
+    },
+    usedQuizTime(state, action) {
+      const { quiz_time } = action.data;
+      return { ...state, quiz_time }
+    },
   },
 }
-
 export default model

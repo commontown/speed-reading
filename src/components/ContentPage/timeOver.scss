@@ -2,19 +2,21 @@ $menu-height:5rem;
     .right-timeOver {
         flex: 1;
         max-height: calc(100vh - #{$menu-height});
-        overflow: scroll;
-        padding: 12rem 3rem 0;
         box-sizing: border-box;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
+				background: #fff;
+				.right-content-main{
+					padding: 12rem 3rem 0;
+					text-align: center;
 			.clock-icon {
 				width: 4rem;
 				height: 4rem;
 			}
 			.timeover-tit {
 				font-size: 5rem;
-				font-family: "Fredoka";
+				font-family: "Helvetica";
 				font-weight: bold;
 				color: #2291d7;
 				margin-bottom: 2rem;
@@ -22,7 +24,7 @@ $menu-height:5rem;
 				.done-button {
 					width: 22rem;
 					height: 6rem;
-					font-family: "Roboto";
+					font-family: "Helvetica";
 					background-image:url("../../assets/contentPage/time_up.png");
 					background-size: 100% 100%;
 					background-repeat: no-repeat;
@@ -32,7 +34,7 @@ $menu-height:5rem;
 					display: flex;
 					flex-direction: column;
 					justify-content: space-between;
-					padding: 1.4rem 0;
+					padding: 1rem 0 1.4rem 0;
 					box-sizing: border-box;
 					&:hover{
 						background-image:url("../../assets/contentPage/time_up_active.png");
@@ -53,10 +55,10 @@ $menu-height:5rem;
 						line-height: 2.2rem;
 					}
 					.btn-subtit {
-						font-size: 0.2rem;
+						font-size: 1.4rem;
 						color: #333333;
 						text-align: center;
 						line-height: 0.2rem;
 					}
-				}
+				}}
     }

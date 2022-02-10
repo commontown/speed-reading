@@ -1,12 +1,18 @@
+import { useEffect } from "react";
 import { useSelector } from "react-redux"
+import { dispatch } from "framework"
 import './styles.scss';
 import Content from './content';
 import TimeOver from './timeOver';
 import Question from './question';
-
+import background from '../../assets/background.png'
 // let timer
 export default function ContentPage(props) {
 	const { pageStatus } = useSelector(({ counter }) => counter) || {};
+	const { passage } = useSelector(({ article }) => article.speedread) || {};
+	// useEffect(() => {
+	// 	dispatch('article/fetch');
+	// }, []);
 	const getPageView = (status) => {
 		let view
 		switch (status) {
@@ -28,7 +34,7 @@ export default function ContentPage(props) {
 	return (
 		<div className="ContentPage">
 			<div className="left-img">
-				<img src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fpic205.nipic.com%2Ffile%2F20190130%2F20614752_112211857000_2.jpg&refer=http%3A%2F%2Fpic205.nipic.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1639122695&t=ef9da40ddaf0a63111da4b8ef587a637" alt="" />
+				<img src={passage.image_url ? `https://dd.ca4dev.url3.net${passage.image_url}` : background} alt="" />
 			</div>
 			{
 				getPageView(pageStatus)
