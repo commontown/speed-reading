@@ -1,0 +1,66 @@
+$menu-height:5rem;
+.leader-board-area {
+    width: 100%;
+    height:calc(100vh - #{$menu-height});
+    background-color: #fff7e7;
+    padding: 3rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .btn-area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        div {
+            width: 15rem;
+			height: 3.5rem;
+            background-image:url("../../assets/leaderBoard/class_button.png");
+            background-size: 101% 100%;
+            background-repeat: no-repeat;
+            margin: 0 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            color: #fff;
+            font-size: 1.5rem;
+            font-weight: bolder;
+			cursor: pointer;
+            font-family: "Helvetica";
+            border-radius: 0.8rem;
+            .starIcon {
+                position: absolute;
+                top: - 1rem;
+				right: - 0.8rem;
+                width: 2rem;
+                height: 2rem;
+            }
+            &:hover{
+                box-shadow: -1px 1px 13px -1px rgba(42,40,40,0.5);
+                transition: all 0.3s;
+            }
+        }
+        .class-btn {
+            background-image:url("../../assets/leaderBoard/class_button.png");
+        }
+        .school-btn {
+            background-image:url("../../assets/leaderBoard/school_button.png");
+        }
+    }
+    .table-area {
+        width: 80%;
+        margin-top: 3rem;
+        .MuiTableSortLabel-icon {
+            color: #fff !important;
+        }
+        .name{width: 65%;display: flex;align-items: center;}
+        .order-icon {
+            width: 1.5rem;
+            height: 1.7rem;
+            margin-right: 1.5rem;
+        }
+    }
+    .MuiTableCell-root{
+        padding: 8px 16px;
+    }
+}
